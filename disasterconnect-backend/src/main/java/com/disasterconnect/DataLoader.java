@@ -46,7 +46,6 @@ public class DataLoader implements CommandLineRunner {
         // =====================================================
 
         String adminEmail = "admin@disasterconnect.test";
-
         String adminPassword = "Admin@12345";
 
         Optional<User> existingAdmin =
@@ -57,15 +56,11 @@ public class DataLoader implements CommandLineRunner {
             User admin = new User();
 
             admin.setName("Admin User");
-
             admin.setEmail(adminEmail);
-
             admin.setPhone("9876543213");
-
             admin.setPassword(
                     passwordEncoder.encode(adminPassword)
             );
-
             admin.setRole(Role.ADMIN);
 
             User savedAdmin =
@@ -76,31 +71,24 @@ public class DataLoader implements CommandLineRunner {
             );
 
             System.out.println(
-                    "Admin ID: " +
-                    savedAdmin.getId()
+                    "Admin ID: " + savedAdmin.getId()
             );
 
             System.out.println(
-                    "Admin Email: " +
-                    savedAdmin.getEmail()
+                    "Admin Email: " + savedAdmin.getEmail()
             );
 
             System.out.println(
-                    "Admin Role: " +
-                    savedAdmin.getRole()
+                    "Admin Role: " + savedAdmin.getRole()
             );
 
         } else {
 
-            User admin =
-                    existingAdmin.get();
+            User admin = existingAdmin.get();
 
             admin.setName("Admin User");
-
             admin.setPhone("9876543213");
-
             admin.setRole(Role.ADMIN);
-
             admin.setPassword(
                     passwordEncoder.encode(adminPassword)
             );
@@ -112,50 +100,64 @@ public class DataLoader implements CommandLineRunner {
             );
 
             System.out.println(
-                    "Admin ID: " +
-                    admin.getId()
+                    "Admin ID: " + admin.getId()
             );
 
             System.out.println(
-                    "Admin Email: " +
-                    admin.getEmail()
+                    "Admin Email: " + admin.getEmail()
             );
 
             System.out.println(
-                    "Admin Role: " +
-                    admin.getRole()
+                    "Admin Role: " + admin.getRole()
             );
         }
 
         // =====================================================
-        // 1. CREATE USER
+        // 1. CREATE / REUSE USER
         // =====================================================
 
         System.out.println(
                 "===== USER SERVICE TEST ====="
         );
 
-        User user = new User();
+        String testUserEmail =
+                "arshad@example.com";
 
-        user.setName("Arshad");
+        Optional<User> existingTestUser =
+                userRepository.findByEmail(testUserEmail);
 
-        user.setEmail("arshad@example.com");
+        User savedUser;
 
-        user.setPhone("9876543210");
+        if (existingTestUser.isPresent()) {
 
-        user.setPassword(
-                passwordEncoder.encode("Temp@12345")
-        );
+            savedUser =
+                    existingTestUser.get();
 
-        user.setRole(Role.CITIZEN);
+            System.out.println(
+                    "Test user already exists. Reusing User ID: "
+                            + savedUser.getId()
+            );
 
-        User savedUser =
-                userService.createUser(user);
+        } else {
 
-        System.out.println(
-                "User created with ID: " +
-                savedUser.getId()
-        );
+            User user = new User();
+
+            user.setName("Arshad");
+            user.setEmail(testUserEmail);
+            user.setPhone("9876543210");
+            user.setPassword(
+                    passwordEncoder.encode("Temp@12345")
+            );
+            user.setRole(Role.CITIZEN);
+
+            savedUser =
+                    userService.createUser(user);
+
+            System.out.println(
+                    "User created with ID: "
+                            + savedUser.getId()
+            );
+        }
 
         // =====================================================
         // 2. FIND USER BY ID
@@ -171,11 +173,11 @@ public class DataLoader implements CommandLineRunner {
                 );
 
         System.out.println(
-                foundUser.getId() + " | " +
-                foundUser.getName() + " | " +
-                foundUser.getEmail() + " | " +
-                foundUser.getPhone() + " | " +
-                foundUser.getRole()
+                foundUser.getId() + " | "
+                        + foundUser.getName() + " | "
+                        + foundUser.getEmail() + " | "
+                        + foundUser.getPhone() + " | "
+                        + foundUser.getRole()
         );
 
         // =====================================================
@@ -191,10 +193,10 @@ public class DataLoader implements CommandLineRunner {
 
         users.forEach(u ->
                 System.out.println(
-                        u.getId() + " | " +
-                        u.getName() + " | " +
-                        u.getEmail() + " | " +
-                        u.getRole()
+                        u.getId() + " | "
+                                + u.getName() + " | "
+                                + u.getEmail() + " | "
+                                + u.getRole()
                 )
         );
 
@@ -209,8 +211,12 @@ public class DataLoader implements CommandLineRunner {
                 "Arshad Updated"
         );
 
+        /*
+         * Keep the existing email unchanged.
+         * This prevents duplicate-email errors.
+         */
         updatedUser.setEmail(
-                "arshad.updated@example.com"
+                savedUser.getEmail()
         );
 
         updatedUser.setPhone(
@@ -266,33 +272,31 @@ public class DataLoader implements CommandLineRunner {
         );
 
         Request savedRequest =
-                requestRepository.save(
-                        request
-                );
+                requestRepository.save(request);
 
         System.out.println(
-                "Request created with ID: " +
-                savedRequest.getId()
+                "Request created with ID: "
+                        + savedRequest.getId()
         );
 
         System.out.println(
-                "Request linked to User ID: " +
-                savedRequest.getUser().getId()
+                "Request linked to User ID: "
+                        + savedRequest.getUser().getId()
         );
 
         System.out.println(
-                "Request title: " +
-                savedRequest.getTitle()
+                "Request title: "
+                        + savedRequest.getTitle()
         );
 
         System.out.println(
-                "Request status: " +
-                savedRequest.getStatus()
+                "Request status: "
+                        + savedRequest.getStatus()
         );
 
         System.out.println(
-                "Request urgency: " +
-                savedRequest.getUrgency()
+                "Request urgency: "
+                        + savedRequest.getUrgency()
         );
 
         System.out.println(
@@ -315,28 +319,28 @@ public class DataLoader implements CommandLineRunner {
         foundRequest.ifPresent(r -> {
 
             System.out.println(
-                    "Retrieved Request ID: " +
-                    r.getId()
+                    "Retrieved Request ID: "
+                            + r.getId()
             );
 
             System.out.println(
-                    "Retrieved Request Title: " +
-                    r.getTitle()
+                    "Retrieved Request Title: "
+                            + r.getTitle()
             );
 
             System.out.println(
-                    "Retrieved User ID: " +
-                    r.getUser().getId()
+                    "Retrieved User ID: "
+                            + r.getUser().getId()
             );
 
             System.out.println(
-                    "Retrieved Request Status: " +
-                    r.getStatus()
+                    "Retrieved Request Status: "
+                            + r.getStatus()
             );
 
             System.out.println(
-                    "Retrieved Request Urgency: " +
-                    r.getUrgency()
+                    "Retrieved Request Urgency: "
+                            + r.getUrgency()
             );
         });
 
@@ -360,18 +364,18 @@ public class DataLoader implements CommandLineRunner {
         if (userWithRequests != null) {
 
             System.out.println(
-                    "User ID: " +
-                    userWithRequests.getId()
+                    "User ID: "
+                            + userWithRequests.getId()
             );
 
             System.out.println(
-                    "User Name: " +
-                    userWithRequests.getName()
+                    "User Name: "
+                            + userWithRequests.getName()
             );
 
             System.out.println(
-                    "Number of Requests: " +
-                    userWithRequests
+                    "Number of Requests: "
+                            + userWithRequests
                             .getRequests()
                             .size()
             );
@@ -380,12 +384,12 @@ public class DataLoader implements CommandLineRunner {
                     .getRequests()
                     .forEach(r ->
                             System.out.println(
-                                    "Request ID: " +
-                                    r.getId() +
-                                    " | Title: " +
-                                    r.getTitle() +
-                                    " | Status: " +
-                                    r.getStatus()
+                                    "Request ID: "
+                                            + r.getId()
+                                            + " | Title: "
+                                            + r.getTitle()
+                                            + " | Status: "
+                                            + r.getStatus()
                             )
                     );
         }
@@ -410,28 +414,28 @@ public class DataLoader implements CommandLineRunner {
         requestWithUser.ifPresent(r -> {
 
             System.out.println(
-                    "Request ID: " +
-                    r.getId()
+                    "Request ID: "
+                            + r.getId()
             );
 
             System.out.println(
-                    "Request Title: " +
-                    r.getTitle()
+                    "Request Title: "
+                            + r.getTitle()
             );
 
             System.out.println(
-                    "Linked User ID: " +
-                    r.getUser().getId()
+                    "Linked User ID: "
+                            + r.getUser().getId()
             );
 
             System.out.println(
-                    "Linked User Name: " +
-                    r.getUser().getName()
+                    "Linked User Name: "
+                            + r.getUser().getName()
             );
 
             System.out.println(
-                    "Linked User Email: " +
-                    r.getUser().getEmail()
+                    "Linked User Email: "
+                            + r.getUser().getEmail()
             );
         });
 
@@ -447,60 +451,100 @@ public class DataLoader implements CommandLineRunner {
                 "===== DTO SERVICE TEST ====="
         );
 
-        UserRequestDTO userRequestDTO =
-                new UserRequestDTO();
+        String dtoTestEmail =
+                "dto.test@example.com";
 
-        userRequestDTO.setName(
-                "DTO Test User"
-        );
-
-        userRequestDTO.setEmail(
-                "dto.test@example.com"
-        );
-
-        userRequestDTO.setPhone(
-                "8888888888"
-        );
-
-        // FIX: Password is required because
-        // users.password is NOT NULL.
-        userRequestDTO.setPassword(
-                "Temp@12345"
-        );
-
-        userRequestDTO.setRole(
-                Role.CITIZEN
-        );
-
-        UserResponseDTO userResponseDTO =
-                userService.createUser(
-                        userRequestDTO
+        Optional<User> existingDtoUser =
+                userRepository.findByEmail(
+                        dtoTestEmail
                 );
 
-        System.out.println(
-                "DTO User ID: " +
-                userResponseDTO.getId()
-        );
+        if (existingDtoUser.isPresent()) {
 
-        System.out.println(
-                "DTO User Name: " +
-                userResponseDTO.getName()
-        );
+            User dtoUser =
+                    existingDtoUser.get();
 
-        System.out.println(
-                "DTO User Email: " +
-                userResponseDTO.getEmail()
-        );
+            System.out.println(
+                    "DTO test user already exists. "
+                            + "Reusing User ID: "
+                            + dtoUser.getId()
+            );
 
-        System.out.println(
-                "DTO User Phone: " +
-                userResponseDTO.getPhone()
-        );
+            System.out.println(
+                    "DTO User Name: "
+                            + dtoUser.getName()
+            );
 
-        System.out.println(
-                "DTO User Role: " +
-                userResponseDTO.getRole()
-        );
+            System.out.println(
+                    "DTO User Email: "
+                            + dtoUser.getEmail()
+            );
+
+            System.out.println(
+                    "DTO User Phone: "
+                            + dtoUser.getPhone()
+            );
+
+            System.out.println(
+                    "DTO User Role: "
+                            + dtoUser.getRole()
+            );
+
+        } else {
+
+            UserRequestDTO userRequestDTO =
+                    new UserRequestDTO();
+
+            userRequestDTO.setName(
+                    "DTO Test User"
+            );
+
+            userRequestDTO.setEmail(
+                    dtoTestEmail
+            );
+
+            userRequestDTO.setPhone(
+                    "8888888888"
+            );
+
+            userRequestDTO.setPassword(
+                    "Temp@12345"
+            );
+
+            userRequestDTO.setRole(
+                    Role.CITIZEN
+            );
+
+            UserResponseDTO userResponseDTO =
+                    userService.createUser(
+                            userRequestDTO
+                    );
+
+            System.out.println(
+                    "DTO User ID: "
+                            + userResponseDTO.getId()
+            );
+
+            System.out.println(
+                    "DTO User Name: "
+                            + userResponseDTO.getName()
+            );
+
+            System.out.println(
+                    "DTO User Email: "
+                            + userResponseDTO.getEmail()
+            );
+
+            System.out.println(
+                    "DTO User Phone: "
+                            + userResponseDTO.getPhone()
+            );
+
+            System.out.println(
+                    "DTO User Role: "
+                            + userResponseDTO.getRole()
+            );
+        }
 
         System.out.println(
                 "===== DTO SERVICE TEST COMPLETE ====="
