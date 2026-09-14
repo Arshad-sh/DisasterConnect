@@ -169,6 +169,12 @@ public class DataLoader implements CommandLineRunner {
                 "9876543210"
         );
 
+        user.setPassword(
+                passwordEncoder.encode(
+                        "Temp@12345"
+                )
+        );
+
         user.setRole(
                 Role.CITIZEN
         );
