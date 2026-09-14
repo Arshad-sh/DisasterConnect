@@ -45,11 +45,9 @@ public class DataLoader implements CommandLineRunner {
         // 0. ENSURE ADMIN USER EXISTS
         // =====================================================
 
-        String adminEmail =
-                "admin@disasterconnect.test";
+        String adminEmail = "admin@disasterconnect.test";
 
-        String adminPassword =
-                "Admin@12345";
+        String adminPassword = "Admin@12345";
 
         Optional<User> existingAdmin =
                 userRepository.findByEmail(adminEmail);
@@ -58,27 +56,17 @@ public class DataLoader implements CommandLineRunner {
 
             User admin = new User();
 
-            admin.setName(
-                    "Admin User"
-            );
+            admin.setName("Admin User");
 
-            admin.setEmail(
-                    adminEmail
-            );
+            admin.setEmail(adminEmail);
 
-            admin.setPhone(
-                    "9876543213"
-            );
+            admin.setPhone("9876543213");
 
             admin.setPassword(
-                    passwordEncoder.encode(
-                            adminPassword
-                    )
+                    passwordEncoder.encode(adminPassword)
             );
 
-            admin.setRole(
-                    Role.ADMIN
-            );
+            admin.setRole(Role.ADMIN);
 
             User savedAdmin =
                     userRepository.save(admin);
@@ -107,22 +95,14 @@ public class DataLoader implements CommandLineRunner {
             User admin =
                     existingAdmin.get();
 
-            admin.setName(
-                    "Admin User"
-            );
+            admin.setName("Admin User");
 
-            admin.setPhone(
-                    "9876543213"
-            );
+            admin.setPhone("9876543213");
 
-            admin.setRole(
-                    Role.ADMIN
-            );
+            admin.setRole(Role.ADMIN);
 
             admin.setPassword(
-                    passwordEncoder.encode(
-                            adminPassword
-                    )
+                    passwordEncoder.encode(adminPassword)
             );
 
             userRepository.save(admin);
@@ -157,27 +137,17 @@ public class DataLoader implements CommandLineRunner {
 
         User user = new User();
 
-        user.setName(
-                "Arshad"
-        );
+        user.setName("Arshad");
 
-        user.setEmail(
-                "arshad@example.com"
-        );
+        user.setEmail("arshad@example.com");
 
-        user.setPhone(
-                "9876543210"
-        );
+        user.setPhone("9876543210");
 
         user.setPassword(
-                passwordEncoder.encode(
-                        "Temp@12345"
-                )
+                passwordEncoder.encode("Temp@12345")
         );
 
-        user.setRole(
-                Role.CITIZEN
-        );
+        user.setRole(Role.CITIZEN);
 
         User savedUser =
                 userService.createUser(user);
@@ -490,6 +460,12 @@ public class DataLoader implements CommandLineRunner {
 
         userRequestDTO.setPhone(
                 "8888888888"
+        );
+
+        // FIX: Password is required because
+        // users.password is NOT NULL.
+        userRequestDTO.setPassword(
+                "Temp@12345"
         );
 
         userRequestDTO.setRole(
