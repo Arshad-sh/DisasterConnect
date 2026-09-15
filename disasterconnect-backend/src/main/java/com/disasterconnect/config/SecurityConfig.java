@@ -82,8 +82,10 @@ public class SecurityConfig {
                         // Volunteer assignment reads/status updates.
                         .requestMatchers(HttpMethod.GET, "/api/assignments/my")
                         .hasRole("VOLUNTEER")
+
                         .requestMatchers(HttpMethod.GET, "/api/assignments/*")
                         .hasRole("VOLUNTEER")
+
                         .requestMatchers(HttpMethod.PUT, "/api/assignments/*/status")
                         .hasRole("VOLUNTEER")
 
@@ -98,16 +100,22 @@ public class SecurityConfig {
                         // admins and NGOs can read the request feed.
                         .requestMatchers(HttpMethod.POST, "/api/requests")
                         .hasRole("CITIZEN")
+
                         .requestMatchers("/api/requests/my")
                         .hasRole("CITIZEN")
+
                         .requestMatchers(HttpMethod.PUT, "/api/requests/*/status")
                         .hasRole("CITIZEN")
+
                         .requestMatchers(HttpMethod.PUT, "/api/requests/*")
                         .hasRole("CITIZEN")
+
                         .requestMatchers(HttpMethod.DELETE, "/api/requests/*")
                         .hasRole("CITIZEN")
+
                         .requestMatchers(HttpMethod.GET, "/api/requests")
                         .hasAnyRole("ADMIN", "NGO", "CITIZEN")
+
                         .requestMatchers(HttpMethod.GET, "/api/requests/*")
                         .hasAnyRole("ADMIN", "NGO", "CITIZEN")
 
@@ -118,7 +126,6 @@ public class SecurityConfig {
                 // =================================================
                 // JWT FILTER
                 // =================================================
-
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
@@ -138,7 +145,10 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:5173")
+                List.of(
+                        "http://localhost:5173",
+                        "https://disasterconnect-sooty.vercel.app"
+                )
         );
 
         configuration.setAllowedMethods(
