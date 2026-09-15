@@ -64,7 +64,7 @@ public class SecurityConfig {
                 // AUTHORIZATION / RBAC
                 // =================================================
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/auth/**")
+                        .requestMatchers("/", "/health", "/api/auth/**")
                         .permitAll()
 
                         .requestMatchers("/api/admin/**")
