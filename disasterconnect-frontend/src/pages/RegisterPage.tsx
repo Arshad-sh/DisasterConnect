@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { register } from "../services/authService";
 
 function RegisterPage() {
@@ -7,6 +8,8 @@ function RegisterPage() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -24,6 +27,10 @@ function RegisterPage() {
 
       console.log("Registration successful");
       console.log("Registration response:", response);
+
+      alert("Registration successful! Please login.");
+
+      navigate("/login");
     } catch (error) {
       console.error("Registration failed:", error);
     }

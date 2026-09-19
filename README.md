@@ -235,3 +235,44 @@ Future work ideas:
 13. Author
 Arshad Shaikh
 GitHub: https://github.com/Arshad-sh/DisasterConnect
+<<<<<<< HEAD
+=======
+
+14. Project Structure
+
+DisasterConnect/
+│
+├── disasterconnect-backend/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   └── resources/
+│   │   └── test/
+│   ├── Dockerfile
+│   ├── pom.xml
+│   └── mvnw.cmd
+│
+├── disasterconnect-frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── routes/
+│   │   └── services/
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── docs/
+│   ├── er-diagram/
+│   │   └── disasterconnect-er-diagram.png
+│   ├── system-architecture/
+│   └── screenshots/
+│       ├── 01-home-page.png
+│       ├── 02-citizen-dashboard.png
+│       ├── 03-ngo-dashboard.png
+│       ├── 04-volunteer-dashboard.png
+│       └── 05-admin-dashboard.png
+│
+└── README.md
